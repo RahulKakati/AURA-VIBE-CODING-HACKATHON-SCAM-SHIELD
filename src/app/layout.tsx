@@ -4,9 +4,9 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'SCAMSHIELD AI | AI-Powered Suspicious Message & Phishing Detection Platform',
+  title: 'ScamShield AI — Suspicious Message & Phishing Threat Detection',
   description:
-    'Detect fraudulent messages, UPI scams, fake bank alerts, KYC phishing, and deceptive URLs using multi-layer AI and heuristic threat intelligence. Built for PromptWars X Code1 Innovators.',
+    'Commercial-grade cybersecurity platform detecting smishing, UPI payment traps, KYC fraud, and phishing URLs using dual-engine AI and heuristic threat intelligence.',
   keywords: [
     'ScamShield AI',
     'cybersecurity',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     'KYC fraud',
     'AI message scanner',
     'India cybercrime protection',
-    'fake bank SMS'
+    'smishing detection'
   ],
 };
 
@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen flex flex-col bg-cyber-darkest text-slate-100 antialiased selection:bg-cyber-cyan selection:text-cyber-darkest">
+      <body className="min-h-screen flex flex-col bg-surface-0 text-text-primary antialiased selection:bg-brand-blue selection:text-white">
         <Navbar />
         <main className="flex-1 w-full">
           {children}

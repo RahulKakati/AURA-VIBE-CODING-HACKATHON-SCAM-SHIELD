@@ -3,133 +3,121 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-  ShieldAlert,
-  ShieldCheck,
-  Zap,
+  Shield,
+  ScanLine,
   ArrowRight,
   Eye,
-  FileSearch,
-  Lock,
   Globe,
-  Smartphone,
+  Lock,
   AlertTriangle,
-  CheckCircle2,
+  CheckCircle,
   Cpu,
-  Layers,
-  Sparkles,
-  BookOpen,
+  MessageSquare,
+  ChevronRight,
 } from 'lucide-react';
 
 export default function HomePage() {
   return (
-    <div className="space-y-24 pb-20">
-      {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden pt-12 md:pt-20 pb-16 bg-cyber-grid">
-        {/* Ambient Glow Orbs */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyber-cyan/15 rounded-full blur-3xl pointer-events-none -z-10" />
-        <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-cyber-blue/15 rounded-full blur-3xl pointer-events-none -z-10" />
+    <div className="space-y-20 pb-20">
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-          {/* Top Challenge Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyber-card/90 border border-cyber-cyan/30 text-xs font-semibold text-cyber-cyan shadow-lg shadow-cyber-cyan/5">
-            <Sparkles className="w-4 h-4 text-cyber-cyan animate-pulse" />
-            <span>PromptWars X Code1 Innovators • PS01: ScamShield</span>
-          </div>
+      {/* HERO */}
+      <section className="relative pt-16 pb-20 dot-bg overflow-hidden">
+        {/* Subtle radial gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-blue/5 via-transparent to-transparent pointer-events-none" />
 
-          {/* Mandatory Exact Hero Heading & Supporting Text */}
-          <div className="max-w-4xl mx-auto space-y-4">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            {/* Top badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-3 border border-surface-border text-xs font-medium text-text-secondary">
+              <span className="w-1.5 h-1.5 rounded-full bg-status-safe" />
+              PromptWars × Code1 Innovators &nbsp;·&nbsp; PS01: ScamShield
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-primary tracking-tight leading-tight">
               Your Digital Safety <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-blue via-cyber-cyan to-white">
-                Starts Here.
-              </span>
+              <span className="text-brand-blueLight">Starts Here.</span>
             </h1>
 
-            <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+            <p className="text-base sm:text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed">
               Detect scams, identify phishing attempts and protect yourself from digital fraud with AI-powered security intelligence.
             </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <Link
+                href="/scanner"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-brand-blue hover:bg-brand-blueSubtle text-white font-semibold text-sm transition-all shadow-brand hover:shadow-lg"
+              >
+                <ScanLine className="w-4 h-4" />
+                Scan a Message
+              </Link>
+              <a
+                href="#how-it-works"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-surface-2 border border-surface-border text-text-secondary hover:text-text-primary hover:bg-surface-3 font-medium text-sm transition-colors"
+              >
+                Explore Protection
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
           </div>
 
-          {/* Mandatory Two Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <Link
-              href="/scanner"
-              className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-cyan text-cyber-darkest font-black text-base shadow-xl shadow-cyber-cyan/25 hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all"
-            >
-              <Zap className="w-5 h-5 fill-cyber-darkest" />
-              <span>Scan a Message</span>
-            </Link>
-
-            <a
-              href="#how-it-works"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-cyber-card/80 border border-cyber-border hover:border-cyber-cyan/50 text-white font-bold text-base hover:bg-cyber-card transition-all"
-            >
-              <span>Explore Protection</span>
-              <ArrowRight className="w-4 h-4 text-cyber-cyan" />
-            </a>
-          </div>
-
-          {/* Real Live-Looking Product Demonstration Card */}
-          <div className="pt-8 max-w-5xl mx-auto">
-            <div className="rounded-2xl bg-cyber-darker/90 border border-cyber-border/80 shadow-2xl p-4 sm:p-6 text-left cyber-glass">
-              {/* Fake Chrome / Scanner Header */}
-              <div className="flex items-center justify-between border-b border-cyber-border/70 pb-3 mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                  <span className="ml-2 text-xs font-mono text-slate-400">
-                    scamshield-core-engine://live-threat-feed
-                  </span>
+          {/* Product Preview Card */}
+          <div className="mt-14 max-w-4xl mx-auto">
+            <div className="card-elevated overflow-hidden">
+              {/* Window chrome */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-surface-border bg-surface-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-surface-4" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-surface-4" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-surface-4" />
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    Dual-Engine Active
-                  </span>
+                <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-surface-1 border border-surface-border text-xs text-text-muted font-mono">
+                  <span className="w-1.5 h-1.5 rounded-full bg-status-safe" />
+                  scamshield-ai · threat-analysis · live
                 </div>
+                <div className="w-14" />
               </div>
 
-              {/* Sample Analysis Preview */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div className="lg:col-span-7 space-y-3">
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                    Live Detection Preview (Hinglish Bank Smishing)
+              {/* Content */}
+              <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Input side */}
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold text-text-muted uppercase tracking-wider">Submitted Message</p>
+                  <div className="p-4 rounded-lg bg-surface-1 border border-surface-border text-sm font-mono text-text-secondary leading-relaxed">
+                    "Dear SBI User, Your YONO Account will be{' '}
+                    <span className="bg-status-criticalBg text-red-300 px-0.5 rounded">blocked today</span>{' '}
+                    due to pending{' '}
+                    <span className="bg-status-criticalBg text-red-300 px-0.5 rounded">KYC update</span>.
+                    Click link immediately:{' '}
+                    <span className="bg-status-criticalBg text-red-300 px-0.5 rounded">sbi-kyc-verify.xyz/login</span>"
                   </div>
-                  <div className="p-3.5 rounded-xl bg-cyber-darkest border border-red-500/30 text-xs sm:text-sm font-mono text-slate-200">
-                    &ldquo;Dear Customer, Aapka SBI YONO account suspended today due to KYC expired. Click link immediately to update PAN: <span className="text-red-400 underline">http://sbi-kyc-verify.xyz/login</span>&rdquo;
-                  </div>
-                  <div className="flex flex-wrap gap-2 text-[11px]">
-                    <span className="px-2 py-0.5 rounded bg-red-500/15 border border-red-500/30 text-red-300 font-mono">
-                      ! Urgent Account Threat
-                    </span>
-                    <span className="px-2 py-0.5 rounded bg-red-500/15 border border-red-500/30 text-red-300 font-mono">
-                      ! Rogue .xyz Domain
-                    </span>
-                    <span className="px-2 py-0.5 rounded bg-red-500/15 border border-red-500/30 text-red-300 font-mono">
-                      ! Brand Spoofing (SBI)
-                    </span>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="badge risk-critical">KYC Urgency Trigger</span>
+                    <span className="badge risk-critical">Rogue .xyz Domain</span>
+                    <span className="badge risk-critical">Brand Spoofing</span>
                   </div>
                 </div>
 
-                <div className="lg:col-span-5 p-4 rounded-xl bg-cyber-card/70 border border-cyber-border space-y-2 text-center sm:text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase text-red-400 tracking-wider">
-                      Threat Assessment
-                    </span>
-                    <span className="text-xs font-black px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/40">
-                      CRITICAL • 96/100
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-300">
-                    High probability banking credential harvester impersonating SBI YONO.
-                  </p>
-                  <div className="pt-2">
-                    <Link
-                      href="/scanner"
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-cyber-cyan hover:underline"
-                    >
-                      <span>Try Scanning Your Own Messages</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                {/* Result side */}
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold text-text-muted uppercase tracking-wider">Analysis Result</p>
+                  <div className="p-4 rounded-lg bg-surface-1 border border-status-criticalBorder space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full border-2 border-status-critical flex items-center justify-center">
+                          <span className="text-xs font-bold text-red-400">96</span>
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-red-400">CRITICAL RISK</p>
+                          <p className="text-2xs text-text-muted">Banking / KYC Fraud</p>
+                        </div>
+                      </div>
+                      <span className="badge risk-critical text-2xs">Confidence: 97%</span>
+                    </div>
+                    <p className="text-xs text-text-secondary leading-relaxed">
+                      High-probability banking credential harvester impersonating SBI YONO. Employs account-blocking urgency and rogue external domain.
+                    </p>
+                    <Link href="/scanner" className="flex items-center gap-1.5 text-xs font-semibold text-brand-blueLight hover:underline">
+                      Try scanning your own messages <ChevronRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -139,301 +127,183 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. THREE CORE SCANNING MODES OVERVIEW */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center space-y-3">
-          <h2 className="text-xs font-bold uppercase text-cyber-cyan tracking-widest">
-            Complete Threat Ingestion
-          </h2>
-          <h3 className="text-2xl sm:text-4xl font-black text-white">
-            Three Specialized Scanning Modes
-          </h3>
-          <p className="text-sm text-slate-400 max-w-xl mx-auto">
-            Cyber threats arrive via diverse channels. ScamShield AI equips you with purpose-built modalities to inspect any suspect communication.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Mode 1 */}
-          <div className="p-6 rounded-2xl bg-cyber-card/50 border border-cyber-border hover:border-cyber-cyan/40 transition-all space-y-4 group">
-            <div className="w-12 h-12 rounded-xl bg-cyber-blue/10 border border-cyber-blue/30 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Smartphone className="w-6 h-6 text-cyber-cyan" />
-            </div>
-            <h4 className="text-lg font-bold text-white">
-              1. Suspicious Message Scanner
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Paste SMS texts, WhatsApp forwards, Telegram task recruitment, or phishing emails. Deep analysis handles English, Hindi, and colloquial Hinglish.
-            </p>
-            <Link
-              href="/scanner"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-cyber-cyan hover:underline pt-2"
-            >
-              <span>Scan Messages</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          {/* Mode 2 */}
-          <div className="p-6 rounded-2xl bg-cyber-card/50 border border-cyber-border hover:border-cyber-cyan/40 transition-all space-y-4 group">
-            <div className="w-12 h-12 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Eye className="w-6 h-6 text-cyber-cyan" />
-            </div>
-            <h4 className="text-lg font-bold text-white">
-              2. Screenshot OCR Analyzer
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Upload mobile screenshots of payment screens, fake prizes, or chat dialogues. In-browser neural OCR extracts text and evaluates fraud indicators.
-            </p>
-            <Link
-              href="/scanner?tab=screenshot"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-cyber-cyan hover:underline pt-2"
-            >
-              <span>Upload Screenshot</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          {/* Mode 3 */}
-          <div className="p-6 rounded-2xl bg-cyber-card/50 border border-cyber-border hover:border-cyber-cyan/40 transition-all space-y-4 group">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Globe className="w-6 h-6 text-emerald-400" />
-            </div>
-            <h4 className="text-lg font-bold text-white">
-              3. Zero-Execution URL Inspector
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Inspect suspicious links without visiting them. Evaluates typo-squatting, deceptive subdomains, disposable TLDs, and IP masking without execution risk.
-            </p>
-            <Link
-              href="/scanner?tab=url"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-cyber-cyan hover:underline pt-2"
-            >
-              <span>Inspect a Link</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. HOW IT WORKS */}
-      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center space-y-3">
-          <h2 className="text-xs font-bold uppercase text-cyber-cyan tracking-widest">
-            Architecture Pipeline
-          </h2>
-          <h3 className="text-2xl sm:text-4xl font-black text-white">
-            How ScamShield AI Analyzes Threats
-          </h3>
-          <p className="text-sm text-slate-400 max-w-xl mx-auto">
-            A transparent multi-stage verification pipeline that never exposes your sensitive credentials or relies on opaque guesswork.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-2xl bg-cyber-darker border border-cyber-border space-y-3 relative">
-            <span className="text-3xl font-black text-cyber-cyan/30 font-mono">01</span>
-            <h4 className="text-base font-bold text-white">Input & Parsing</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              User supplies raw text, screenshot, or URL. Input is sanitized, character boundaries validated, and OCR applied if image.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-cyber-darker border border-cyber-border space-y-3 relative">
-            <span className="text-3xl font-black text-cyber-cyan/30 font-mono">02</span>
-            <h4 className="text-base font-bold text-white">Dual-Layer Intelligence</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Evaluated simultaneously against 250+ deterministic heuristic rules and deep Google Gemini AI reasoning models.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-cyber-darker border border-cyber-border space-y-3 relative">
-            <span className="text-3xl font-black text-cyber-cyan/30 font-mono">03</span>
-            <h4 className="text-base font-bold text-white">Risk Scoring & Vectors</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Calculates a mathematically grounded 0-100 risk score, risk classification, exact threat phrases, and urgency signatures.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-cyber-darker border border-cyber-border space-y-3 relative">
-            <span className="text-3xl font-black text-cyber-cyan/30 font-mono">04</span>
-            <h4 className="text-base font-bold text-white">Actionable Defense</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Provides immediate safety steps, things to avoid, and 1-click incident report generation for Indian cyber helplines (1930).
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. COMMON THREATS SECTION (INDIAN CONTEXT) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center space-y-3">
-          <h2 className="text-xs font-bold uppercase text-cyber-cyan tracking-widest">
-            Threat Taxonomy
-          </h2>
-          <h3 className="text-2xl sm:text-4xl font-black text-white">
-            Common Cyber Threats Detected
-          </h3>
-          <p className="text-sm text-slate-400 max-w-xl mx-auto">
-            Tailored heuristics specifically calibrated for Indian digital payment and communication ecosystems.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="p-5 rounded-2xl bg-cyber-card/40 border border-cyber-border space-y-2">
-            <div className="flex items-center gap-2 text-red-400 font-bold text-sm">
-              <AlertTriangle className="w-4 h-4" />
-              <span>UPI PIN & Cashback Traps</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Deceptive claims that entering your 4-digit or 6-digit UPI PIN is required to &ldquo;accept&rdquo; or &ldquo;claim&rdquo; rewards.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-cyber-card/40 border border-cyber-border space-y-2">
-            <div className="flex items-center gap-2 text-red-400 font-bold text-sm">
-              <AlertTriangle className="w-4 h-4" />
-              <span>Bank KYC & Account Freezes</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Smishing messages impersonating SBI, HDFC, ICICI, or YONO threatening account blockages unless PAN/Aadhaar is updated via rogue links.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-cyber-card/40 border border-cyber-border space-y-2">
-            <div className="flex items-center gap-2 text-red-400 font-bold text-sm">
-              <AlertTriangle className="w-4 h-4" />
-              <span>Telegram Part-Time Job Scams</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Prepaid task Ponzi syndicates luring victims with ₹150 for liking YouTube videos, then freezing large deposits.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-cyber-card/40 border border-cyber-border space-y-2">
-            <div className="flex items-center gap-2 text-red-400 font-bold text-sm">
-              <AlertTriangle className="w-4 h-4" />
-              <span>Electricity Power Cut Threats</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Extortion SMS claiming power disconnection at 9:30 PM tonight, directing calls to personal mobile numbers.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-cyber-card/40 border border-cyber-border space-y-2">
-            <div className="flex items-center gap-2 text-red-400 font-bold text-sm">
-              <AlertTriangle className="w-4 h-4" />
-              <span>India Post Parcel Delivery Traps</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Smishing SMS demanding nominal ₹5 address updates to capture debit/credit card CVV and credentials.
-            </p>
-          </div>
-
-          <div className="p-5 rounded-2xl bg-cyber-card/40 border border-cyber-border space-y-2">
-            <div className="flex items-center gap-2 text-red-400 font-bold text-sm">
-              <AlertTriangle className="w-4 h-4" />
-              <span>Fake Government Schemes</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Spurious PM Yojana free recharge, laptop grants, or subsidy claims with viral WhatsApp forward links.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. WHY SCAMSHIELD AI */}
+      {/* SCANNING MODES */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-3xl bg-cyber-darker border border-cyber-border space-y-8 cyber-glass">
-          <div className="max-w-2xl space-y-3">
-            <h2 className="text-xs font-bold uppercase text-cyber-cyan tracking-widest">
-              Core Architectural Pillars
+        <div className="mb-10 max-w-2xl">
+          <p className="text-xs font-semibold text-brand-accent uppercase tracking-widest mb-2">Scanning Modalities</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+            Three Purpose-Built Detection Modes
+          </h2>
+          <p className="mt-3 text-text-secondary text-sm leading-relaxed">
+            Threats arrive through different channels. ScamShield covers all of them.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {[
+            {
+              icon: MessageSquare,
+              title: 'Message Scanner',
+              description: 'Paste SMS, WhatsApp forwards, or Telegram recruitment messages. Supports English, Hindi, and Hinglish with 250+ fraud pattern signatures.',
+              href: '/scanner',
+              label: 'Scan Messages',
+            },
+            {
+              icon: Eye,
+              title: 'Screenshot Analyzer',
+              description: 'Upload screenshots from payment apps or chats. Browser-side OCR (Tesseract.js) extracts text and runs full threat analysis without any cloud upload.',
+              href: '/scanner?tab=screenshot',
+              label: 'Upload Screenshot',
+            },
+            {
+              icon: Globe,
+              title: 'URL Inspector',
+              description: 'Inspect suspicious links for typosquatting, deceptive TLDs, IP-based hosts, and brand impersonation — without ever visiting or executing the URL.',
+              href: '/scanner?tab=url',
+              label: 'Inspect a Link',
+            },
+          ].map((mode) => {
+            const Icon = mode.icon;
+            return (
+              <div key={mode.title} className="card p-6 hover:border-surface-borderLight transition-colors group space-y-4">
+                <div className="w-9 h-9 rounded-lg bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center">
+                  <Icon className="w-4.5 h-4.5 text-brand-blueLight" size={18} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-text-primary mb-1.5">{mode.title}</h3>
+                  <p className="text-xs text-text-secondary leading-relaxed">{mode.description}</p>
+                </div>
+                <Link
+                  href={mode.href}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-blueLight group-hover:gap-2 transition-all"
+                >
+                  {mode.label} <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 max-w-2xl">
+          <p className="text-xs font-semibold text-brand-accent uppercase tracking-widest mb-2">Analysis Pipeline</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+            How ScamShield Analyzes Threats
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {[
+            { step: '01', title: 'Input & Validation', body: 'Content is sanitized, length-validated, and classified by input type (message, screenshot, URL) before processing.' },
+            { step: '02', title: 'Dual-Layer Analysis', body: 'Evaluated simultaneously against 250+ deterministic heuristic rules and Google Gemini AI deep reasoning.' },
+            { step: '03', title: 'Risk Scoring', body: 'Mathematically grounded 0–100 risk score, threat classification, exact suspicious phrase extraction, and confidence rating.' },
+            { step: '04', title: 'Actionable Guidance', body: 'Step-by-step safety instructions, things to avoid, and a formal incident report formatted for cybercrime.gov.in.' },
+          ].map((s) => (
+            <div key={s.step} className="card p-5 space-y-3">
+              <span className="text-2xl font-black text-brand-blue/30 font-mono">{s.step}</span>
+              <h3 className="text-sm font-semibold text-text-primary">{s.title}</h3>
+              <p className="text-xs text-text-secondary leading-relaxed">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* THREAT TAXONOMY */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 max-w-2xl">
+          <p className="text-xs font-semibold text-brand-accent uppercase tracking-widest mb-2">Threat Coverage</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+            Scam Categories Detected
+          </h2>
+          <p className="mt-3 text-text-secondary text-sm leading-relaxed">
+            Heuristics calibrated for the Indian digital payments and communications ecosystem.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { label: 'UPI PIN & Payment Traps', detail: 'Fake "receive money by entering PIN" requests targeting PhonePe, GPay, Paytm users.' },
+            { label: 'Bank KYC Account Freezes', detail: 'SBI, HDFC, ICICI, YONO impersonation threatening account suspension via rogue links.' },
+            { label: 'Telegram Part-Time Job Scams', detail: 'YouTube like/subscribe task Ponzi schemes luring victims with ₹150 bait payments.' },
+            { label: 'Electricity Disconnection Threats', detail: 'Extortion SMS threatening power cut at 9:30 PM with personal mobile "officer" contact.' },
+            { label: 'Courier & Parcel Delivery Traps', detail: 'India Post smishing demanding nominal ₹5 "address update" fees to steal card details.' },
+            { label: 'Fake Government Schemes', detail: 'Spurious PM Yojana free recharge, laptop grants, and MUDRA loan subsidy lures.' },
+          ].map((t) => (
+            <div key={t.label} className="card p-4 flex gap-3">
+              <AlertTriangle className="w-4 h-4 text-status-medium shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs font-semibold text-text-primary mb-1">{t.label}</p>
+                <p className="text-xs text-text-muted leading-relaxed">{t.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* WHY SCAMSHIELD */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="card-elevated p-8 sm:p-10">
+          <div className="mb-8 max-w-2xl">
+            <p className="text-xs font-semibold text-brand-accent uppercase tracking-widest mb-2">Architecture</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+              Built for Reliability
             </h2>
-            <h3 className="text-2xl sm:text-3xl font-black text-white">
-              Why ScamShield AI Stands Out
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              Engineered with privacy-first principles and production-grade resilience.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-white font-bold text-sm">
-                <Lock className="w-4 h-4 text-cyber-cyan" />
-                <span>Zero Server Storage</span>
-              </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Your submitted messages are analyzed ephemerally in-memory. We never log or store your personal communications in centralized databases.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-white font-bold text-sm">
-                <Cpu className="w-4 h-4 text-emerald-400" />
-                <span>Deterministic Fallback</span>
-              </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                If the cloud AI API is unavailable, our robust rule-based engine ensures uninterrupted protection without degraded capabilities.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-white font-bold text-sm">
-                <Globe className="w-4 h-4 text-cyber-cyan" />
-                <span>Hinglish & Regional Fluency</span>
-              </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Calibrated to parse Romanized Hindi, regional loan words, and colloquial fraud vernacular used across Indian messaging networks.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-white font-bold text-sm">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>1930 Helpline Ready</span>
-              </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Pre-formats structured incident summaries formatted for immediate submission to the National Cyber Crime Reporting Portal.
-              </p>
-            </div>
+            {[
+              { icon: Lock, title: 'No Data Stored', body: 'Messages are analyzed ephemerally in-memory. Nothing is logged or persisted in remote databases.' },
+              { icon: Cpu, title: 'Offline Fallback', body: 'If Gemini AI is unavailable, the deterministic Heuristic Rule Engine ensures uninterrupted analysis.' },
+              { icon: Globe, title: 'Hinglish Support', body: 'Calibrated for Romanized Hindi, regional loan-words, and colloquial fraud vernacular across Indian SMS networks.' },
+              { icon: CheckCircle, title: '1930 Integration', body: 'Pre-structures formal incident reports optimized for National Cyber Crime Reporting Portal submission.' },
+            ].map((f) => {
+              const Icon = f.icon;
+              return (
+                <div key={f.title} className="space-y-2">
+                  <Icon className="w-5 h-5 text-brand-blueLight" />
+                  <h4 className="text-sm font-semibold text-text-primary">{f.title}</h4>
+                  <p className="text-xs text-text-secondary leading-relaxed">{f.body}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 6. CALL TO ACTION BANNER */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-cyber-blue/20 via-cyber-card to-cyber-cyan/10 border border-cyber-cyan/30 space-y-6">
-          <div className="w-14 h-14 rounded-2xl bg-cyber-darkest border border-cyber-cyan/40 flex items-center justify-center mx-auto shadow-lg shadow-cyber-cyan/20">
-            <ShieldCheck className="w-8 h-8 text-cyber-cyan" />
+      {/* CTA */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="card p-8 sm:p-10 text-center space-y-5 border-brand-blue/20 bg-gradient-to-b from-surface-2 to-surface-1">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-blue/10 border border-brand-blue/25 mx-auto">
+            <Shield className="w-6 h-6 text-brand-blueLight" />
           </div>
-
           <div className="space-y-2">
-            <h3 className="text-2xl sm:text-3xl font-black text-white">
-              Received a Suspicious Message Today?
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
-              Don&apos;t risk your hard-earned money or sensitive credentials. Run an instant, safe security scan right now.
+            <h2 className="text-xl sm:text-2xl font-bold text-text-primary">
+              Received a suspicious message?
+            </h2>
+            <p className="text-sm text-text-secondary max-w-md mx-auto">
+              Run an instant security scan and get a detailed threat analysis in seconds.
             </p>
           </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/scanner"
-              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-cyan text-cyber-darkest font-black text-sm shadow-xl shadow-cyber-cyan/20 hover:opacity-95 transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-blue hover:bg-brand-blueSubtle text-white font-semibold text-sm transition-colors shadow-brand"
             >
-              Launch Scam Scanner
+              <ScanLine className="w-4 h-4" />
+              Launch Scanner
             </Link>
             <Link
               href="/awareness"
-              className="px-6 py-3.5 rounded-xl bg-cyber-card border border-cyber-border text-white font-bold text-sm hover:bg-cyber-cardHover transition-all flex items-center gap-2"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface-2 border border-surface-border text-text-secondary hover:text-text-primary hover:bg-surface-3 font-medium text-sm transition-colors"
             >
-              <BookOpen className="w-4 h-4 text-cyber-cyan" />
-              <span>Test Your Scam Awareness</span>
+              Test Your Awareness
             </Link>
           </div>
         </div>
       </section>
+
     </div>
   );
 }

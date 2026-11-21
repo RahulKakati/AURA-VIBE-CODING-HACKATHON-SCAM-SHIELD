@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { Upload, Image as ImageIcon, Sparkles, CheckCircle2, AlertCircle, FileSearch, Trash2 } from 'lucide-react';
+import { Upload, Trash2, AlertCircle, FileImage, ChevronRight } from 'lucide-react';
 import Tesseract from 'tesseract.js';
 
 interface ScreenshotScannerProps {
@@ -11,218 +11,138 @@ interface ScreenshotScannerProps {
 
 export default function ScreenshotScanner({ onAnalyze, isLoading }: ScreenshotScannerProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [extractedText, setExtractedText] = useState<string>('');
+  const [preview, setPreview] = useState<string | null>(null);
+  const [extractedText, setExtractedText] = useState('');
   const [ocrStatus, setOcrStatus] = useState<string | null>(null);
-  const [ocrProgress, setOcrProgress] = useState<number>(0);
-  const [isExtracting, setIsExtracting] = useState<boolean>(false);
+  const [ocrProgress, setOcrProgress] = useState(0);
+  const [isExtracting, setIsExtracting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelection = (selectedFile: File) => {
+  const handleFile = (f: File) => {
     setError(null);
-    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
-    if (!validTypes.includes(selectedFile.type)) {
-      setError('Please upload a valid image file (JPG, JPEG, PNG, or WEBP).');
-      return;
+    if (!['image/jpeg', 'image/png', 'image/webp', 'image/jpg'].includes(f.type)) {
+      setError('Please upload a JPG, PNG, or WEBP image.'); return;
     }
-
-    if (selectedFile.size > 10 * 1024 * 1024) {
-      setError('Image file size must be less than 10MB.');
-      return;
-    }
-
-    setFile(selectedFile);
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setImagePreview(objectUrl);
+    if (f.size > 10 * 1024 * 1024) { setError('Image must be under 10MB.'); return; }
+    setFile(f);
+    setPreview(URL.createObjectURL(f));
     setExtractedText('');
     setOcrStatus(null);
     setOcrProgress(0);
-
-    // Auto-trigger OCR extraction on file load
-    extractTextFromImage(selectedFile);
+    runOcr(f);
   };
 
-  const extractTextFromImage = async (imgFile: File) => {
+  const runOcr = async (img: File) => {
     setIsExtracting(true);
-    setOcrStatus('Initializing OCR engine...');
-    setOcrProgress(10);
-
+    setOcrStatus('Initializing OCR...');
+    setOcrProgress(5);
     try {
-      const result = await Tesseract.recognize(imgFile, 'eng', {
+      const result = await Tesseract.recognize(img, 'eng', {
         logger: (m) => {
           if (m.status === 'recognizing text') {
-            const prog = Math.round((m.progress || 0) * 100);
-            setOcrProgress(prog);
-            setOcrStatus(`Extracting text from screenshot: ${prog}%`);
-          } else if (m.status) {
-            setOcrStatus(`${m.status.charAt(0).toUpperCase() + m.status.slice(1)}...`);
+            const p = Math.round((m.progress || 0) * 100);
+            setOcrProgress(p);
+            setOcrStatus(`Extracting text: ${p}%`);
           }
         },
       });
-
-      const extracted = result.data.text.trim();
+      const text = result.data.text.trim();
       setIsExtracting(false);
-
-      if (!extracted) {
-        setError('No readable text could be extracted from this image. Please ensure the screenshot is clear.');
-        setOcrStatus('Text extraction completed with zero readable characters.');
+      if (!text) {
+        setError('No readable text found in this image. Please try a clearer screenshot.');
+        setOcrStatus(null);
       } else {
-        setExtractedText(extracted);
-        setOcrStatus('Text extracted successfully. Review and click Analyze below.');
+        setExtractedText(text);
+        setOcrStatus('Extraction complete. Review text and click Analyze.');
         setOcrProgress(100);
       }
-    } catch (err) {
-      console.error('OCR Extraction error:', err);
+    } catch {
       setIsExtracting(false);
-      setError('Failed to extract text from the image. You may manually type or paste the message text.');
+      setError('OCR failed. You can manually type or paste the message text instead.');
       setOcrStatus(null);
     }
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFileSelection(e.dataTransfer.files[0]);
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
   const handleReset = () => {
     setFile(null);
-    if (imagePreview) URL.revokeObjectURL(imagePreview);
-    setImagePreview(null);
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview(null);
     setExtractedText('');
     setOcrStatus(null);
     setOcrProgress(0);
     setError(null);
-    if (fileInputRef.current) fileInputRef.current.value = '';
+    if (fileRef.current) fileRef.current.value = '';
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!extractedText.trim()) {
-      setError('No extracted text available to analyze. Please upload a screenshot or type text manually.');
-      return;
-    }
+    if (!extractedText.trim()) { setError('No text to analyze.'); return; }
     onAnalyze(extractedText.trim(), 'screenshot');
   };
 
   return (
-    <div className="space-y-5">
-      {/* Upload Zone */}
-      {!imagePreview ? (
+    <div className="space-y-4">
+      {!preview ? (
         <div
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onClick={() => fileInputRef.current?.click()}
-          className="relative border-2 border-dashed border-cyber-border hover:border-cyber-cyan/50 rounded-2xl p-8 sm:p-12 text-center cursor-pointer bg-cyber-darker/60 hover:bg-cyber-darker transition-all group"
+          onDrop={(e) => { e.preventDefault(); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); }}
+          onDragOver={(e) => e.preventDefault()}
+          onClick={() => fileRef.current?.click()}
+          className="border-2 border-dashed border-surface-border hover:border-brand-blue/40 rounded-xl p-10 text-center cursor-pointer bg-surface-1 hover:bg-surface-2 transition-colors"
         >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/png, image/jpeg, image/jpg, image/webp"
-            className="hidden"
-            onChange={(e) => {
-              if (e.target.files && e.target.files[0]) {
-                handleFileSelection(e.target.files[0]);
-              }
-            }}
-          />
-          <div className="flex flex-col items-center justify-center space-y-3">
-            <div className="w-14 h-14 rounded-2xl bg-cyber-card border border-cyber-border flex items-center justify-center group-hover:scale-110 group-hover:border-cyber-cyan/40 transition-all">
-              <Upload className="w-7 h-7 text-cyber-cyan" />
+          <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/jpg,image/webp" className="hidden"
+            onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); }} />
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-surface-2 border border-surface-border flex items-center justify-center">
+              <Upload className="w-5 h-5 text-text-muted" />
             </div>
             <div>
-              <p className="text-sm font-bold text-white">
-                Drag & drop suspicious screenshot or <span className="text-cyber-cyan underline">browse</span>
-              </p>
-              <p className="text-xs text-slate-400 mt-1">
-                Supports PNG, JPG, JPEG, WEBP (Max 10MB) • WhatsApp, SMS & Payment screen captures
-              </p>
-            </div>
-            <div className="flex items-center gap-2 pt-2 text-[11px] text-slate-400">
-              <FileSearch className="w-3.5 h-3.5 text-cyber-cyan" />
-              <span>Includes automatic client-side Optical Character Recognition (OCR)</span>
+              <p className="text-sm font-semibold text-text-primary">Drop screenshot here or <span className="text-brand-blueLight">browse</span></p>
+              <p className="text-xs text-text-muted mt-1">JPG, PNG, WEBP — max 10MB · OCR runs in-browser, no cloud upload</p>
             </div>
           </div>
         </div>
       ) : (
-        /* Image Preview & OCR Workflow */
-        <div className="rounded-2xl bg-cyber-darker border border-cyber-border p-5 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-cyber-border/70">
+        <div className="card p-5 space-y-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ImageIcon className="w-4 h-4 text-cyber-cyan" />
-              <span className="text-xs font-bold text-white truncate max-w-xs">
-                {file?.name}
-              </span>
-              <span className="text-[10px] text-slate-400 font-mono">
-                ({file ? (file.size / 1024).toFixed(1) : 0} KB)
-              </span>
+              <FileImage className="w-4 h-4 text-brand-blueLight" />
+              <span className="text-xs font-medium text-text-primary">{file?.name}</span>
+              <span className="text-2xs text-text-muted mono-text">({file ? (file.size / 1024).toFixed(0) : 0} KB)</span>
             </div>
-            <button
-              onClick={handleReset}
-              disabled={isLoading || isExtracting}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyber-card border border-cyber-border text-slate-300 hover:text-red-400 text-xs transition-colors"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span>Change Image</span>
+            <button onClick={handleReset} disabled={isLoading || isExtracting}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-2 border border-surface-border text-text-muted hover:text-text-secondary text-xs transition-colors">
+              <Trash2 className="w-3.5 h-3.5" />Change
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-            {/* Image display */}
-            <div className="md:col-span-5 flex items-center justify-center bg-cyber-darkest rounded-xl p-2 border border-cyber-border/50 max-h-64 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Image preview */}
+            <div className="rounded-lg bg-surface-1 border border-surface-border overflow-hidden max-h-56 flex items-center justify-center p-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={imagePreview}
-                alt="Uploaded Screenshot"
-                className="max-h-60 w-auto object-contain rounded-lg"
-              />
+              <img src={preview} alt="Screenshot" className="max-h-52 w-auto object-contain rounded" />
             </div>
 
-            {/* Extracted text review box */}
-            <div className="md:col-span-7 flex flex-col justify-between space-y-3">
-              <div>
-                <div className="flex items-center justify-between text-xs mb-1.5">
-                  <span className="font-bold text-slate-300 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                    OCR Extracted Text
-                  </span>
-                  <span className="text-slate-400 text-[11px]">
-                    Editable before scan
-                  </span>
-                </div>
-                <textarea
-                  value={extractedText}
-                  onChange={(e) => setExtractedText(e.target.value)}
-                  disabled={isExtracting || isLoading}
-                  rows={6}
-                  placeholder={
-                    isExtracting
-                      ? 'Performing neural OCR character recognition on screenshot...'
-                      : 'Extracted text will appear here. You can edit or clarify any ambiguous characters.'
-                  }
-                  className="w-full rounded-xl bg-cyber-darkest border border-cyber-border/70 p-3 text-xs text-slate-200 focus:outline-none focus:border-cyber-cyan/50 resize-none font-mono leading-relaxed"
-                />
+            {/* Extracted text */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-semibold text-text-secondary">Extracted Text</span>
+                <span className="text-text-muted text-2xs">Editable</span>
               </div>
-
-              {/* OCR Progress Status */}
+              <textarea
+                value={extractedText}
+                onChange={(e) => setExtractedText(e.target.value)}
+                disabled={isExtracting || isLoading}
+                rows={5}
+                placeholder={isExtracting ? 'Running OCR...' : 'Text will appear here...'}
+                className="w-full rounded-lg bg-surface-1 border border-surface-border p-3 text-xs text-text-secondary mono-text focus:outline-none focus:border-brand-blue/50 resize-none leading-relaxed"
+              />
               {ocrStatus && (
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between text-[11px] text-slate-400">
-                    <span>{ocrStatus}</span>
-                    <span>{ocrProgress}%</span>
-                  </div>
+                <div className="space-y-1">
+                  <p className="text-2xs text-text-muted">{ocrStatus}</p>
                   {isExtracting && (
-                    <div className="w-full bg-cyber-card rounded-full h-1.5 overflow-hidden">
-                      <div
-                        className="bg-cyber-cyan h-1.5 rounded-full transition-all duration-300"
-                        style={{ width: `${ocrProgress}%` }}
-                      />
+                    <div className="w-full bg-surface-3 rounded-full h-1 overflow-hidden">
+                      <div className="bg-brand-blue h-1 rounded-full transition-all duration-300" style={{ width: `${ocrProgress}%` }} />
                     </div>
                   )}
                 </div>
@@ -233,30 +153,19 @@ export default function ScreenshotScanner({ onAnalyze, isLoading }: ScreenshotSc
       )}
 
       {error && (
-        <div className="flex items-center gap-2 text-xs text-red-400 p-3 rounded-xl bg-red-950/20 border border-red-500/20">
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>{error}</span>
+        <div className="flex items-center gap-2 text-xs text-red-300 p-3 rounded-lg bg-status-criticalBg border border-status-criticalBorder">
+          <AlertCircle className="w-4 h-4 shrink-0" />{error}
         </div>
       )}
 
-      {/* Main Submit Button */}
-      {imagePreview && (
+      {preview && (
         <div className="flex justify-end">
-          <button
-            onClick={handleSubmit}
-            disabled={isLoading || isExtracting || !extractedText.trim()}
-            className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-cyan text-cyber-darkest font-extrabold text-sm shadow-lg shadow-cyber-cyan/20 hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none"
-          >
+          <button onClick={handleSubmit} disabled={isLoading || isExtracting || !extractedText.trim()}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-blue hover:bg-brand-blueSubtle text-white font-semibold text-sm transition-colors shadow-brand disabled:opacity-50 disabled:pointer-events-none">
             {isLoading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-cyber-darkest border-t-transparent rounded-full animate-spin" />
-                <span>Running Threat Analysis on Screenshot...</span>
-              </>
+              <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full spinner" />Analyzing...</>
             ) : (
-              <>
-                <Sparkles className="w-4 h-4 fill-cyber-darkest" />
-                <span>Analyze Extracted Screenshot Content</span>
-              </>
+              <>Analyze Screenshot<ChevronRight className="w-4 h-4" /></>
             )}
           </button>
         </div>

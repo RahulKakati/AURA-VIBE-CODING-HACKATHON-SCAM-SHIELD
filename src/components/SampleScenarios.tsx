@@ -3,7 +3,7 @@
 import React from 'react';
 import { SAMPLE_SCENARIOS } from '@/lib/samples';
 import { SampleScenario } from '@/lib/types';
-import { ShieldAlert, ShieldCheck, ArrowRight, PlayCircle } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface SampleScenariosProps {
   onSelectSample: (sample: SampleScenario) => void;
@@ -14,20 +14,20 @@ export default function SampleScenarios({ onSelectSample }: SampleScenariosProps
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <PlayCircle className="w-4 h-4 text-cyber-cyan" />
-            Interactive Demonstration Scenarios
+          <h3 className="text-sm font-semibold text-text-primary flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-brand-blueLight" />
+            Curated Test Scenarios
           </h3>
-          <p className="text-xs text-slate-400">
-            Click any realistic scenario below to immediately load and test ScamShield AI&apos;s detection engine.
+          <p className="text-xs text-text-muted mt-0.5">
+            Click any realistic scenario below to load and test ScamShield AI&apos;s detection engine instantly.
           </p>
         </div>
-        <span className="text-[11px] font-semibold text-slate-400 px-2.5 py-1 rounded bg-cyber-card border border-cyber-border self-start sm:self-auto">
-          6 Scams + 2 Safe Baselines
+        <span className="text-2xs font-semibold px-2 py-0.5 rounded bg-surface-2 border border-surface-border text-text-muted self-start sm:self-auto">
+          6 Threats + 2 Legitimate Baselines
         </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {SAMPLE_SCENARIOS.map((sample) => {
           const isLegit = sample.risk_level === 'SAFE';
 
@@ -35,35 +35,33 @@ export default function SampleScenarios({ onSelectSample }: SampleScenariosProps
             <div
               key={sample.id}
               onClick={() => onSelectSample(sample)}
-              className="group relative p-4 rounded-xl bg-cyber-darker border border-cyber-border hover:border-cyber-cyan/50 hover:bg-cyber-card/70 transition-all cursor-pointer flex flex-col justify-between space-y-3"
+              className="card p-4 hover:border-surface-borderLight hover:bg-surface-2 transition-all cursor-pointer flex flex-col justify-between space-y-3 group"
             >
               <div className="space-y-2">
-                <div className="flex items-center justify-between gap-1 text-[10px]">
+                <div className="flex items-center justify-between gap-1 text-2xs">
                   <span
-                    className={`font-bold px-2 py-0.5 rounded-full border ${
-                      isLegit
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                        : 'bg-red-500/10 text-red-400 border-red-500/30'
+                    className={`badge ${
+                      isLegit ? 'risk-safe' : 'risk-critical'
                     }`}
                   >
-                    {isLegit ? 'Safe Scenario' : 'Threat Scenario'}
+                    {isLegit ? 'Safe Sample' : 'Threat Scenario'}
                   </span>
-                  <span className="text-slate-400 font-medium">
+                  <span className="text-text-muted font-mono">
                     {sample.language}
                   </span>
                 </div>
 
-                <h4 className="text-xs font-bold text-white group-hover:text-cyber-cyan transition-colors line-clamp-1">
+                <h4 className="text-xs font-semibold text-text-primary group-hover:text-brand-blueLight transition-colors line-clamp-1">
                   {sample.title}
                 </h4>
 
-                <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-text-muted line-clamp-2 leading-relaxed">
                   {sample.description}
                 </p>
               </div>
 
-              <div className="pt-2 border-t border-cyber-border/60 flex items-center justify-between text-xs font-medium text-cyber-cyan group-hover:translate-x-0.5 transition-transform">
-                <span className="text-[11px]">Load & Scan</span>
+              <div className="pt-2 border-t border-surface-border flex items-center justify-between text-xs font-medium text-brand-blueLight group-hover:translate-x-0.5 transition-transform">
+                <span className="text-2xs font-semibold">Load into Scanner</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </div>

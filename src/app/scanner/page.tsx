@@ -13,11 +13,7 @@ import {
   MessageSquare,
   Image as ImageIcon,
   Globe,
-  ShieldCheck,
   AlertCircle,
-  Layers,
-  Sparkles,
-  Zap,
 } from 'lucide-react';
 
 function ScannerContent() {
@@ -30,8 +26,6 @@ function ScannerContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
   const [apiError, setApiError] = useState<string | null>(null);
-
-  // Pre-filled content when user picks a sample scenario
   const [prefilledText, setPrefilledText] = useState<string>('');
 
   useEffect(() => {
@@ -60,7 +54,6 @@ function ScannerContent() {
 
       const data: ScanResult = await response.json();
       setScanResult(data);
-      // Persist in local session storage for Dashboard
       saveScanToHistory(data, type);
     } catch (err) {
       console.error('Scan request failed:', err);
@@ -86,8 +79,7 @@ function ScannerContent() {
       setPrefilledText(sample.content);
     }
 
-    // Smooth scroll up to scanner input box
-    window.scrollTo({ top: 180, behavior: 'smooth' });
+    window.scrollTo({ top: 120, behavior: 'smooth' });
   };
 
   const handleReset = () => {
@@ -97,49 +89,47 @@ function ScannerContent() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
-      {/* Page Title & Status Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-cyber-border/70">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      {/* Page Title & Status */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-surface-border">
         <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-cyber-cyan uppercase tracking-wider">
-              Real-Time Security Intelligence
-            </span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-            AI Scam & Phishing Scanner
+          <p className="text-2xs font-semibold text-brand-accent uppercase tracking-widest">
+            Security Threat Detection
+          </p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-text-primary tracking-tight">
+            Threat Scanner
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Submit text messages, payment screenshots, or suspicious links for multi-tier analysis.
+          <p className="text-xs sm:text-sm text-text-muted">
+            Analyze messages, screenshots, or URLs with dual-engine AI and heuristic intelligence.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start md:self-auto text-xs text-slate-400 bg-cyber-card px-3 py-1.5 rounded-xl border border-cyber-border">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Google Gemini AI &amp; Heuristic Fallback Engine</span>
+        <div className="flex items-center gap-2 text-2xs text-text-muted bg-surface-2 px-3 py-1.5 rounded-md border border-surface-border">
+          <span className="w-1.5 h-1.5 rounded-full bg-status-safe animate-pulse" />
+          <span>Gemini AI + Rule Engine Active</span>
         </div>
       </div>
 
-      {/* Main Analysis Card or Results View */}
+      {/* Main Scanner Card or Results */}
       {scanResult ? (
         <AnalysisResultView result={scanResult} onReset={handleReset} />
       ) : (
-        <div className="rounded-3xl bg-cyber-darker border border-cyber-border shadow-2xl p-6 sm:p-8 space-y-6 cyber-glass">
-          {/* Tab Navigation */}
-          <div className="flex flex-wrap p-1.5 rounded-2xl bg-cyber-darkest border border-cyber-border gap-1.5">
+        <div className="card-elevated p-6 sm:p-8 space-y-6">
+          {/* Segmented Tab Control */}
+          <div className="flex p-1 rounded-lg bg-surface-1 border border-surface-border gap-1">
             <button
               onClick={() => {
                 setActiveTab('message');
                 setPrefilledText('');
               }}
-              className={`flex-1 min-w-[140px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-xs font-semibold transition-all ${
                 activeTab === 'message'
-                  ? 'bg-cyber-card text-cyber-cyan border border-cyber-cyan/30 shadow-md shadow-cyber-cyan/10'
-                  : 'text-slate-400 hover:text-white hover:bg-cyber-card/40'
+                  ? 'bg-surface-3 text-text-primary shadow-sm'
+                  : 'text-text-muted hover:text-text-secondary hover:bg-surface-2'
               }`}
             >
-              <MessageSquare className="w-4 h-4" />
-              <span>1. Message Text</span>
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>Message Text</span>
             </button>
 
             <button
@@ -147,14 +137,14 @@ function ScannerContent() {
                 setActiveTab('screenshot');
                 setPrefilledText('');
               }}
-              className={`flex-1 min-w-[140px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-xs font-semibold transition-all ${
                 activeTab === 'screenshot'
-                  ? 'bg-cyber-card text-cyber-cyan border border-cyber-cyan/30 shadow-md shadow-cyber-cyan/10'
-                  : 'text-slate-400 hover:text-white hover:bg-cyber-card/40'
+                  ? 'bg-surface-3 text-text-primary shadow-sm'
+                  : 'text-text-muted hover:text-text-secondary hover:bg-surface-2'
               }`}
             >
-              <ImageIcon className="w-4 h-4" />
-              <span>2. Screenshot (OCR)</span>
+              <ImageIcon className="w-3.5 h-3.5" />
+              <span>Screenshot (OCR)</span>
             </button>
 
             <button
@@ -162,19 +152,19 @@ function ScannerContent() {
                 setActiveTab('url');
                 setPrefilledText('');
               }}
-              className={`flex-1 min-w-[140px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-md text-xs font-semibold transition-all ${
                 activeTab === 'url'
-                  ? 'bg-cyber-card text-cyber-cyan border border-cyber-cyan/30 shadow-md shadow-cyber-cyan/10'
-                  : 'text-slate-400 hover:text-white hover:bg-cyber-card/40'
+                  ? 'bg-surface-3 text-text-primary shadow-sm'
+                  : 'text-text-muted hover:text-text-secondary hover:bg-surface-2'
               }`}
             >
-              <Globe className="w-4 h-4" />
-              <span>3. URL Inspector</span>
+              <Globe className="w-3.5 h-3.5" />
+              <span>URL Inspector</span>
             </button>
           </div>
 
-          {/* Active Tab Component */}
-          <div className="pt-2">
+          {/* Active Tab Panel */}
+          <div>
             {activeTab === 'message' && (
               <MessageScanner
                 onAnalyze={handleAnalyze}
@@ -201,36 +191,34 @@ function ScannerContent() {
 
           {/* Error Message */}
           {apiError && (
-            <div className="flex items-start gap-2.5 p-4 rounded-xl bg-red-950/30 border border-red-500/40 text-red-300 text-xs">
+            <div className="flex items-start gap-2.5 p-3.5 rounded-lg bg-status-criticalBg border border-status-criticalBorder text-red-300 text-xs">
               <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-              <div className="space-y-1">
+              <div className="space-y-0.5">
                 <strong className="text-red-200">Analysis Error:</strong>
                 <p>{apiError}</p>
               </div>
             </div>
           )}
 
-          {/* Real-time Loading Animation Card */}
+          {/* Minimalist Loading State */}
           {isLoading && (
-            <div className="p-6 rounded-2xl bg-cyber-darkest border border-cyber-cyan/30 text-center space-y-4 animate-pulse">
-              <div className="flex items-center justify-center gap-3">
-                <div className="w-5 h-5 border-2 border-cyber-cyan border-t-transparent rounded-full animate-spin" />
-                <span className="text-sm font-bold text-white tracking-wide">
-                  Processing Threat Signals...
+            <div className="p-6 rounded-lg bg-surface-1 border border-surface-border text-center space-y-3">
+              <div className="flex items-center justify-center gap-2.5">
+                <div className="w-4 h-4 border-2 border-brand-blueLight border-t-transparent rounded-full spinner" />
+                <span className="text-xs font-semibold text-text-primary">
+                  Synthesizing threat vectors &amp; evaluating risk score...
                 </span>
               </div>
-              <div className="max-w-md mx-auto space-y-1 text-xs text-slate-400">
-                <p>1. Ingesting content &amp; cross-referencing Indian cyber threat matrices</p>
-                <p>2. Checking typosquatting, credential harvesting &amp; UPI PIN patterns</p>
-                <p>3. Synthesizing risk score &amp; protective safety recommendations</p>
-              </div>
+              <p className="text-2xs text-text-muted">
+                Running 250+ security heuristics and neural reasoning models
+              </p>
             </div>
           )}
         </div>
       )}
 
       {/* Demonstration Scenarios Card */}
-      <div className="pt-6">
+      <div className="pt-2">
         <SampleScenarios onSelectSample={handleSelectSample} />
       </div>
     </div>
@@ -239,7 +227,7 @@ function ScannerContent() {
 
 export default function ScannerPage() {
   return (
-    <Suspense fallback={<div className="p-12 text-center text-slate-400">Loading ScamShield Scanner...</div>}>
+    <Suspense fallback={<div className="p-12 text-center text-text-muted text-sm">Loading Scanner...</div>}>
       <ScannerContent />
     </Suspense>
   );

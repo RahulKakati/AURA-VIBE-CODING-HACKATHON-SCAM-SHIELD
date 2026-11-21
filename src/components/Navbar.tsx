@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ShieldAlert, ShieldCheck, BarChart3, BookOpen, Menu, X, Zap } from 'lucide-react';
+import { Shield, Menu, X, ScanLine, LayoutDashboard, BookOpen, ChevronRight } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,105 +11,93 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'AI Threat Scanner', href: '/scanner', icon: ShieldAlert },
-    { name: 'Security Dashboard', href: '/dashboard', icon: BarChart3 },
-    { name: 'Awareness Hub & Quiz', href: '/awareness', icon: BookOpen },
+    { name: 'Threat Scanner', href: '/scanner', icon: ScanLine },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Awareness Hub', href: '/awareness', icon: BookOpen },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-cyber-border/70 cyber-glass">
+    <header className="sticky top-0 z-50 w-full border-b border-surface-border bg-surface-1/95 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo & Brand Identity */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-cyber-blue/20 to-cyber-cyan/30 border border-cyber-cyan/40 shadow-lg shadow-cyber-cyan/10 group-hover:border-cyber-cyan transition-all">
-              <ShieldCheck className="w-6 h-6 text-cyber-cyan group-hover:scale-110 transition-transform" />
-              <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+        <div className="flex items-center justify-between h-14">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-blue/10 border border-brand-blue/30 group-hover:bg-brand-blue/15 transition-colors">
+              <Shield className="w-4 h-4 text-brand-blueLight" />
             </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl font-black tracking-wider text-white">
-                  SCAM<span className="text-cyber-cyan">SHIELD</span>
-                </span>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30">
-                  AI
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-medium tracking-tight">
-                Don&apos;t Trust. Verify. Stay Protected.
-              </p>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-base font-bold text-text-primary tracking-tight">
+                ScamShield
+              </span>
+              <span className="text-xs font-semibold px-1.5 py-0.5 rounded-md bg-brand-blue/15 text-brand-accent border border-brand-blue/25 leading-none">
+                AI
+              </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
-              const Icon = link.icon;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`px-3.5 py-1.5 rounded-md text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-cyber-card text-cyber-cyan border border-cyber-cyan/30 shadow-sm shadow-cyber-cyan/10'
-                      : 'text-slate-300 hover:text-white hover:bg-cyber-card/60'
+                      ? 'bg-surface-3 text-text-primary'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-surface-2'
                   }`}
                 >
-                  {Icon && <Icon className="w-4 h-4 text-cyber-cyan/80" />}
                   {link.name}
                 </Link>
               );
             })}
           </nav>
 
-          {/* CTA & Status */}
-          <div className="hidden lg:flex items-center gap-3">
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-              <span>Multi-Layer Defense Online</span>
+          {/* CTA + Status */}
+          <div className="hidden md:flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-xs text-status-safe font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-status-safe animate-pulse" />
+              <span>Engine Online</span>
             </div>
             <Link
               href="/scanner"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyber-blue to-cyber-cyan text-cyber-darkest font-semibold text-sm hover:opacity-95 shadow-lg shadow-cyber-cyan/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-brand-blue hover:bg-brand-blueSubtle text-white text-sm font-semibold transition-colors shadow-brand"
             >
-              <Zap className="w-4 h-4 fill-cyber-darkest" />
-              Scan a Message
+              <ScanLine className="w-3.5 h-3.5" />
+              Scan Message
             </Link>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-cyber-card focus:outline-none"
-              aria-label="Toggle navigation menu"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 rounded-md text-text-secondary hover:text-text-primary hover:bg-surface-2 transition-colors"
+          >
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile menu dropdown */}
+      {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden border-b border-cyber-border bg-cyber-darker/95 backdrop-blur-xl px-4 pt-2 pb-4 space-y-2">
+        <div className="md:hidden border-t border-surface-border bg-surface-1 px-4 pt-2 pb-4 space-y-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
-            const Icon = link.icon;
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-base font-medium ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-cyber-card text-cyber-cyan border border-cyber-cyan/30'
-                    : 'text-slate-300 hover:bg-cyber-card'
+                    ? 'bg-surface-3 text-text-primary'
+                    : 'text-text-secondary hover:bg-surface-2 hover:text-text-primary'
                 }`}
               >
-                {Icon && <Icon className="w-5 h-5 text-cyber-cyan" />}
                 {link.name}
+                {isActive && <ChevronRight className="w-4 h-4 ml-auto text-brand-blueLight" />}
               </Link>
             );
           })}
@@ -117,9 +105,9 @@ export default function Navbar() {
             <Link
               href="/scanner"
               onClick={() => setIsOpen(false)}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-gradient-to-r from-cyber-blue to-cyber-cyan text-cyber-darkest font-semibold text-sm"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md bg-brand-blue text-white font-semibold text-sm"
             >
-              <Zap className="w-4 h-4 fill-cyber-darkest" />
+              <ScanLine className="w-4 h-4" />
               Scan a Message
             </Link>
           </div>

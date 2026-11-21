@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Clipboard, Trash2, ShieldCheck, Sparkles, AlertCircle } from 'lucide-react';
+import { Clipboard, Trash2, ChevronRight, AlertCircle } from 'lucide-react';
 
 interface MessageScannerProps {
   onAnalyze: (text: string, type: 'message') => void;
@@ -13,115 +13,67 @@ export default function MessageScanner({ onAnalyze, isLoading, initialText = '' 
   const [text, setText] = useState(initialText);
   const [error, setError] = useState<string | null>(null);
 
-  // Sync initialText when updated (e.g. from sample scenarios)
   React.useEffect(() => {
-    if (initialText) {
-      setText(initialText);
-      setError(null);
-    }
+    if (initialText) { setText(initialText); setError(null); }
   }, [initialText]);
 
   const handlePaste = async () => {
     try {
-      const clipText = await navigator.clipboard.readText();
-      if (clipText) {
-        setText(clipText);
-        setError(null);
-      }
+      const clip = await navigator.clipboard.readText();
+      if (clip) { setText(clip); setError(null); }
     } catch {
-      setError('Unable to read clipboard directly. Please press Ctrl+V to paste.');
+      setError('Clipboard not available. Use Ctrl+V to paste.');
     }
-  };
-
-  const handleClear = () => {
-    setText('');
-    setError(null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!text.trim()) {
-      setError('Please paste or type a suspicious message to analyze.');
-      return;
-    }
+    if (!text.trim()) { setError('Please enter or paste a message to analyze.'); return; }
     setError(null);
     onAnalyze(text.trim(), 'message');
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Textarea container */}
-      <div className="relative rounded-2xl bg-cyber-darker border border-cyber-border focus-within:border-cyber-cyan/60 focus-within:ring-2 focus-within:ring-cyber-cyan/20 transition-all p-4">
+      <div className="rounded-xl bg-surface-1 border border-surface-border focus-within:border-brand-blue/50 transition-colors p-4">
         <textarea
           value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-            if (error) setError(null);
-          }}
+          onChange={(e) => { setText(e.target.value); if (error) setError(null); }}
           disabled={isLoading}
           rows={6}
-          placeholder="Paste suspicious SMS, WhatsApp message, Telegram recruitment text, email body, or Hinglish notification here... (e.g. 'Aapka SBI YONO account block ho gaya hai, link par click karke turant KYC update karein')"
-          className="w-full bg-transparent text-white placeholder-slate-500 text-sm focus:outline-none resize-none leading-relaxed"
+          placeholder={`Paste suspicious SMS, WhatsApp message, or Telegram text here...\n\nExamples:\n• "Your SBI YONO account will be blocked today, update KYC at..."\n• "Earn ₹5,000 daily liking YouTube videos, contact HR on Telegram"\n• "KBC Lottery: Congratulations, you won ₹25 Lakh!"`}
+          className="w-full bg-transparent text-sm text-text-primary placeholder-text-muted focus:outline-none resize-none leading-relaxed"
         />
-
-        {/* Action bar inside textarea card */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-cyber-border/60 text-xs">
+        <div className="flex items-center justify-between gap-3 pt-3 border-t border-surface-border mt-2">
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handlePaste}
-              disabled={isLoading}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyber-card border border-cyber-border hover:border-slate-500 text-slate-300 hover:text-white transition-all disabled:opacity-50"
-            >
-              <Clipboard className="w-3.5 h-3.5 text-cyber-cyan" />
-              <span>Paste Clipboard</span>
+            <button type="button" onClick={handlePaste} disabled={isLoading}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-2 border border-surface-border hover:border-surface-borderLight text-text-secondary hover:text-text-primary text-xs font-medium transition-colors disabled:opacity-50">
+              <Clipboard className="w-3.5 h-3.5" />Paste
             </button>
-
             {text && (
-              <button
-                type="button"
-                onClick={handleClear}
-                disabled={isLoading}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyber-card border border-cyber-border hover:border-red-500/50 text-slate-300 hover:text-red-300 transition-all disabled:opacity-50"
-              >
-                <Trash2 className="w-3.5 h-3.5 text-red-400" />
-                <span>Clear</span>
+              <button type="button" onClick={() => { setText(''); setError(null); }} disabled={isLoading}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-2 border border-surface-border hover:border-red-500/30 text-text-muted hover:text-red-400 text-xs transition-colors disabled:opacity-50">
+                <Trash2 className="w-3.5 h-3.5" />Clear
               </button>
             )}
           </div>
-
-          <div className="flex items-center gap-3 text-slate-400">
-            <span>
-              <strong className="text-slate-200">{text.length}</strong> / 15,000 chars
-            </span>
-          </div>
+          <span className="text-2xs text-text-muted mono-text">{text.length} / 15,000</span>
         </div>
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 text-xs text-red-400 p-3 rounded-xl bg-red-950/20 border border-red-500/20">
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>{error}</span>
+        <div className="flex items-center gap-2 text-xs text-red-300 p-3 rounded-lg bg-status-criticalBg border border-status-criticalBorder">
+          <AlertCircle className="w-4 h-4 shrink-0" />{error}
         </div>
       )}
 
-      {/* Main Submit Button */}
       <div className="flex justify-end">
-        <button
-          type="submit"
-          disabled={isLoading || !text.trim()}
-          className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-cyan text-cyber-darkest font-extrabold text-sm shadow-lg shadow-cyber-cyan/20 hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none"
-        >
+        <button type="submit" disabled={isLoading || !text.trim()}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-blue hover:bg-brand-blueSubtle text-white font-semibold text-sm transition-colors shadow-brand disabled:opacity-50 disabled:pointer-events-none">
           {isLoading ? (
-            <>
-              <div className="w-4 h-4 border-2 border-cyber-darkest border-t-transparent rounded-full animate-spin" />
-              <span>Running Deep Threat Intelligence...</span>
-            </>
+            <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full spinner" />Analyzing...</>
           ) : (
-            <>
-              <Sparkles className="w-4 h-4 fill-cyber-darkest" />
-              <span>Analyze Message with AI</span>
-            </>
+            <>Analyze Message<ChevronRight className="w-4 h-4" /></>
           )}
         </button>
       </div>

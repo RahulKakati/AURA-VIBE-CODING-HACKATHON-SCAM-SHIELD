@@ -10,129 +10,56 @@ interface RiskGaugeProps {
   confidence?: number;
 }
 
-export default function RiskGauge({ score, level, confidence = 85 }: RiskGaugeProps) {
-  // SVG circular gauge math
-  const radius = 64;
-  const stroke = 10;
+export default function RiskGauge({ score, level, confidence }: RiskGaugeProps) {
+  const radius = 54;
+  const stroke = 7;
   const normalizedRadius = radius - stroke * 2;
   const circumference = normalizedRadius * 2 * Math.PI;
-  // Score percentage (clamp 0 - 100)
   const safeScore = Math.max(0, Math.min(100, score));
   const strokeDashoffset = circumference - (safeScore / 100) * circumference;
 
-  const getColorConfig = (lvl: RiskLevel) => {
+  const getConfig = (lvl: RiskLevel) => {
     switch (lvl) {
-      case 'CRITICAL':
-        return {
-          stroke: '#EF4444',
-          glow: 'rgba(239, 68, 68, 0.4)',
-          badgeBg: 'bg-red-500/15',
-          badgeText: 'text-red-400',
-          badgeBorder: 'border-red-500/30',
-          label: 'CRITICAL THREAT',
-          Icon: ShieldAlert,
-        };
-      case 'HIGH':
-        return {
-          stroke: '#F97316',
-          glow: 'rgba(249, 115, 22, 0.4)',
-          badgeBg: 'bg-orange-500/15',
-          badgeText: 'text-orange-400',
-          badgeBorder: 'border-orange-500/30',
-          label: 'HIGH RISK',
-          Icon: ShieldAlert,
-        };
-      case 'MEDIUM':
-        return {
-          stroke: '#F59E0B',
-          glow: 'rgba(245, 158, 11, 0.35)',
-          badgeBg: 'bg-amber-500/15',
-          badgeText: 'text-amber-400',
-          badgeBorder: 'border-amber-500/30',
-          label: 'SUSPICIOUS / MEDIUM',
-          Icon: AlertTriangle,
-        };
-      case 'LOW':
-        return {
-          stroke: '#38BDF8',
-          glow: 'rgba(56, 189, 248, 0.3)',
-          badgeBg: 'bg-sky-500/15',
-          badgeText: 'text-sky-300',
-          badgeBorder: 'border-sky-500/30',
-          label: 'LOW RISK',
-          Icon: ShieldCheck,
-        };
-      case 'SAFE':
-      default:
-        return {
-          stroke: '#10B981',
-          glow: 'rgba(16, 185, 129, 0.4)',
-          badgeBg: 'bg-emerald-500/15',
-          badgeText: 'text-emerald-400',
-          badgeBorder: 'border-emerald-500/30',
-          label: 'SAFE CONTENT',
-          Icon: ShieldCheck,
-        };
+      case 'CRITICAL': return { color: '#EF4444', label: 'Critical', className: 'risk-critical', Icon: ShieldAlert };
+      case 'HIGH':     return { color: '#F97316', label: 'High Risk', className: 'risk-high', Icon: ShieldAlert };
+      case 'MEDIUM':   return { color: '#F59E0B', label: 'Medium Risk', className: 'risk-medium', Icon: AlertTriangle };
+      case 'LOW':      return { color: '#38BDF8', label: 'Low Risk', className: 'risk-low', Icon: ShieldCheck };
+      default:         return { color: '#22C55E', label: 'Safe', className: 'risk-safe', Icon: ShieldCheck };
     }
   };
 
-  const config = getColorConfig(level);
-  const Icon = config.Icon;
+  const { color, label, className, Icon } = getConfig(level);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <div className="relative flex items-center justify-center">
+    <div className="flex flex-col items-center gap-3">
+      <div className="relative">
         <svg height={radius * 2} width={radius * 2} className="rotate-[-90deg]">
-          {/* Background track */}
+          <circle stroke="#1A263E" fill="transparent" strokeWidth={stroke} r={normalizedRadius} cx={radius} cy={radius} />
           <circle
-            stroke="#1E2C4B"
-            fill="transparent"
-            strokeWidth={stroke}
-            r={normalizedRadius}
-            cx={radius}
-            cy={radius}
-          />
-          {/* Animated score ring */}
-          <circle
-            stroke={config.stroke}
+            stroke={color}
             fill="transparent"
             strokeWidth={stroke}
             strokeDasharray={circumference + ' ' + circumference}
-            style={{
-              strokeDashoffset,
-              transition: 'stroke-dashoffset 1s ease-in-out',
-              filter: `drop-shadow(0 0 8px ${config.glow})`,
-            }}
+            style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.9s ease-in-out' }}
             strokeLinecap="round"
             r={normalizedRadius}
             cx={radius}
             cy={radius}
           />
         </svg>
-
-        {/* Center score readout */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <span className="text-3xl font-black text-white tracking-tight">
-            {safeScore}
-          </span>
-          <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-            Risk Score
-          </span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-2xl font-black text-text-primary font-mono">{safeScore}</span>
+          <span className="text-2xs text-text-muted uppercase tracking-wider font-medium">/100</span>
         </div>
       </div>
 
-      {/* Risk Level Badge */}
-      <div
-        className={`mt-3 flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-bold tracking-wide uppercase ${config.badgeBg} ${config.badgeText} ${config.badgeBorder}`}
-      >
-        <Icon className="w-3.5 h-3.5" />
-        <span>{config.label}</span>
+      <div className={`badge ${className}`}>
+        <Icon className="w-3 h-3" />
+        {label}
       </div>
 
       {confidence !== undefined && (
-        <span className="mt-1 text-[11px] text-slate-400">
-          Confidence: <strong className="text-slate-300 font-medium">{confidence}%</strong>
-        </span>
+        <span className="text-2xs text-text-muted">Confidence: <strong className="text-text-secondary">{confidence}%</strong></span>
       )}
     </div>
   );
