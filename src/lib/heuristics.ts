@@ -87,40 +87,40 @@ const THREAT_PATTERNS: ThreatPattern[] = [
   {
     id: 'kbc_lottery_fraud',
     category: 'Lottery / Prize Scam',
-    weight: 40,
-    regex: /(kbc\s*(sim\s*card)?\s*lottery|kaun\s*banega\s*crorepati\s*winner|congratulations\s*you\s*have\s*won\s*(rs\.?\s*\d+\s*(lakh|crore)|\$\d+)|lucky\s*draw\s*winner)/i,
-    label: 'Fictitious lottery jackpot impersonating popular brands (KBC, MegaDraw)',
-    highlightWords: ['KBC lottery', 'won Rs 25 lakh', 'lucky draw winner', 'Kaun Banega Crorepati']
+    weight: 45,
+    regex: /(kbc\b|kaun\s*banega\s*crorepati|lucky\s*draw|lottery|sim\s*card.*(jeet|won)|(jeet\s*chuka|won\s*(rs\.?|\$)?\s*\d+\s*(lakh|crore))|lottery\s*file\s*no)/i,
+    label: 'Fictitious lottery jackpot or lucky draw prize exploit',
+    highlightWords: ['KBC', 'lottery', 'Kaun Banega Crorepati', 'Lucky Draw', '25 Lakh', 'jeet chuka']
   },
 
   // 6. ELECTRICITY / UTILITY DISCONNECTION
   {
     id: 'bijli_power_cut_scam',
     category: 'Electricity / Utility Disconnection',
-    weight: 40,
-    regex: /(electricity\s*(power|bill|connection)\s*(will\s*be)?\s*disconnect(ed)?\s*tonight|bijli\s*(ka\s*)?connection\s*(kat|disconnect)\s*diya\s*jayega|contact\s*electricity\s*officer\s*\d{10})/i,
+    weight: 45,
+    regex: /(electricity\s*(power|bill|connection|office)|bijli\s*(ka\s*)?(connection|bill)|disconnect(ed)?\s*(tonight|at\s*\d)|power\s*will\s*be\s*disconnect|contact\s*electricity\s*officer)/i,
     label: 'High-threat utility extortion threatening immediate electricity disconnection',
-    highlightWords: ['electricity power disconnected', 'bijli connection', 'contact electricity officer']
+    highlightWords: ['electricity power', 'bijli connection', 'disconnected tonight', 'electricity officer']
   },
 
   // 7. COURIER & DELIVERY TRAPS
   {
     id: 'india_post_delivery_trap',
     category: 'Courier / Delivery Fraud',
-    weight: 35,
-    regex: /(india\s*post|blue\s*dart|delhivery|fedex|dtdc)\s*(package|parcel|shipment)\s*(cannot\s*be\s*delivered|on\s*hold|wrong\s*address|update\s*address\s*within)/i,
+    weight: 40,
+    regex: /(india\s*post|blue\s*dart|delhivery|fedex|dtdc|parcel|shipment|package).*(cannot\s*be\s*delivered|on\s*hold|wrong\s*address|incomplete\s*(street\s*)?address|update\s*(delivery\s*)?address)/i,
     label: 'Smishing attack impersonating postal/courier services to steal card details',
-    highlightWords: ['India Post package', 'parcel on hold', 'wrong address', 'update address within']
+    highlightWords: ['India Post', 'parcel', 'cannot be delivered', 'wrong address', 'update address']
   },
 
   // 8. FAKE GOVERNMENT SCHEMES
   {
     id: 'fake_pm_yojana',
     category: 'Fake Govt Scheme',
-    weight: 35,
-    regex: /(pradhan\s*mantri|pm\s*(kisan|yojana|mudra|awas|free\s*recharge|laptop|solar)|free\s*recharge\s*offer\s*from\s*government|modi\s*sarkar\s*free)/i,
+    weight: 40,
+    regex: /(pradhan\s*mantri|pm\s*(kisan|yojana|mudra|awas|free\s*recharge|laptop|solar|sarkar)|free\s*recharge\s*offer|sarkar\s*de\s*rahi\s*hai|modi\s*sarkar)/i,
     label: 'Deceptive exploit leveraging government subsidy or free handout promises',
-    highlightWords: ['Pradhan Mantri', 'free recharge offer', 'PM yojana', 'mudra loan']
+    highlightWords: ['Pradhan Mantri', 'PM Yojana', 'free recharge', 'sarkar']
   },
 
   // 9. HIGH RISK EXECUTABLE DOWNLOAD / REMOTE ACCESS
