@@ -48,7 +48,7 @@ export default function DashboardPage() {
   }, []);
 
   const handleClearHistory = () => {
-    if (confirm('Are you sure you want to clear your local scan history?')) {
+    if (confirm('Are you sure you want to clear your local session history?')) {
       clearScanHistory();
       loadData();
     }
@@ -78,17 +78,17 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Dashboard Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-surface-border">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-white/[0.08]">
         <div className="space-y-1">
-          <p className="text-2xs font-semibold text-brand-accent uppercase tracking-widest">
-            Session Analytics
+          <p className="text-[11px] font-bold text-blue-400 uppercase tracking-widest">
+            Session Security Telemetry
           </p>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-text-primary tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             Security Dashboard
           </h1>
-          <p className="text-xs sm:text-sm text-text-muted">
-            Live local telemetry, threat category distribution, and scan audit log.
+          <p className="text-xs sm:text-sm text-slate-400">
+            Real session telemetry, risk distribution metrics, and local audit trail.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function DashboardPage() {
             <>
               <button
                 onClick={handleExportJson}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-surface-2 border border-surface-border hover:border-surface-borderLight text-xs text-text-secondary hover:text-text-primary transition-colors"
+                className="btn-secondary text-xs"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Export JSON</span>
@@ -105,7 +105,7 @@ export default function DashboardPage() {
 
               <button
                 onClick={handleClearHistory}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-surface-2 border border-surface-border hover:border-red-500/30 text-xs text-text-muted hover:text-red-400 transition-colors"
+                className="btn-secondary text-xs text-slate-400 hover:text-red-400"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Clear</span>
@@ -115,7 +115,7 @@ export default function DashboardPage() {
 
           <Link
             href="/scanner"
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-brand-blue hover:bg-brand-blueSubtle text-white text-xs font-semibold transition-colors shadow-brand"
+            className="btn-primary text-xs"
           >
             <ScanLine className="w-3.5 h-3.5" />
             <span>New Scan</span>
@@ -127,76 +127,76 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1 */}
         <div className="card p-5 space-y-2">
-          <span className="text-2xs font-semibold text-text-muted uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
             Total Scans
           </span>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-text-primary font-mono">
+            <span className="text-3xl font-black text-white font-mono">
               {metrics.totalScans}
             </span>
-            <span className="text-2xs text-text-muted">In this session</span>
+            <span className="text-[11px] text-slate-500 font-mono">Session</span>
           </div>
-          <p className="text-2xs text-text-subtle">
-            Stored locally in browser state
+          <p className="text-[11px] text-slate-500">
+            Stored locally in browser session
           </p>
         </div>
 
         {/* Card 2 */}
-        <div className="card p-5 space-y-2 border-status-criticalBorder/30">
-          <span className="text-2xs font-semibold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
+        <div className="card p-5 space-y-2 border-red-500/25">
+          <span className="text-[11px] font-semibold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
             <ShieldAlert className="w-3.5 h-3.5" />
             Threats Caught
           </span>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-red-400 font-mono">
+            <span className="text-3xl font-black text-red-400 font-mono">
               {metrics.threatsDetected}
             </span>
-            <span className="text-2xs text-text-muted font-mono">
+            <span className="text-[11px] text-red-400/80 font-mono">
               {metrics.totalScans > 0
                 ? `${Math.round((metrics.threatsDetected / metrics.totalScans) * 100)}%`
                 : '0%'}
             </span>
           </div>
-          <p className="text-2xs text-text-subtle">
+          <p className="text-[11px] text-slate-500">
             High &amp; critical severity
           </p>
         </div>
 
         {/* Card 3 */}
-        <div className="card p-5 space-y-2 border-status-safeBorder/30">
-          <span className="text-2xs font-semibold text-status-safe uppercase tracking-wider flex items-center gap-1.5">
+        <div className="card p-5 space-y-2 border-emerald-500/25">
+          <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5" />
             Safe Communications
           </span>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-status-safe font-mono">
+            <span className="text-3xl font-black text-emerald-400 font-mono">
               {metrics.safeIdentified}
             </span>
-            <span className="text-2xs text-text-muted font-mono">
+            <span className="text-[11px] text-emerald-400/80 font-mono">
               {metrics.totalScans > 0
                 ? `${Math.round((metrics.safeIdentified / metrics.totalScans) * 100)}%`
                 : '0%'}
             </span>
           </div>
-          <p className="text-2xs text-text-subtle">
+          <p className="text-[11px] text-slate-500">
             Benign notifications
           </p>
         </div>
 
         {/* Card 4 */}
         <div className="card p-5 space-y-2">
-          <span className="text-2xs font-semibold text-text-muted uppercase tracking-wider">
+          <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
             Average Risk Score
           </span>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-text-primary font-mono">
+            <span className="text-3xl font-black text-white font-mono">
               {metrics.avgRiskScore}
-              <span className="text-xs text-text-muted font-normal"> / 100</span>
+              <span className="text-xs text-slate-500 font-normal"> / 100</span>
             </span>
-            <span className="text-2xs text-text-muted">Aggregated</span>
+            <span className="text-[11px] text-slate-500 font-mono">Mean</span>
           </div>
-          <p className="text-2xs text-text-subtle">
-            Calculated across session
+          <p className="text-[11px] text-slate-500">
+            Normalized across all scans
           </p>
         </div>
       </div>
@@ -206,22 +206,22 @@ export default function DashboardPage() {
         {/* Risk Distribution Card */}
         <div className="lg:col-span-6 card p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wider flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-brand-blueLight" />
-              Risk Level Distribution
+            <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-blue-400" />
+              Risk Level Breakdown
             </h3>
-            <span className="text-2xs text-text-muted font-mono">Breakdown</span>
+            <span className="text-[11px] text-slate-500 font-mono">Totals</span>
           </div>
 
           <div className="space-y-3">
             <div>
               <div className="flex justify-between text-xs mb-1">
                 <span className="text-red-400 font-medium">Critical (85–100)</span>
-                <span className="text-text-secondary font-mono">{metrics.riskLevelCounts.critical}</span>
+                <span className="text-slate-300 font-mono">{metrics.riskLevelCounts.critical}</span>
               </div>
-              <div className="w-full bg-surface-2 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-[#06090F] rounded-full h-1.5 overflow-hidden border border-white/[0.04]">
                 <div
-                  className="bg-status-critical h-1.5 rounded-full transition-all"
+                  className="bg-red-500 h-1.5 rounded-full transition-all"
                   style={{
                     width: `${metrics.totalScans ? (metrics.riskLevelCounts.critical / metrics.totalScans) * 100 : 0}%`,
                   }}
@@ -231,12 +231,12 @@ export default function DashboardPage() {
 
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-status-high font-medium">High Risk (65–84)</span>
-                <span className="text-text-secondary font-mono">{metrics.riskLevelCounts.high}</span>
+                <span className="text-orange-400 font-medium">High Risk (65–84)</span>
+                <span className="text-slate-300 font-mono">{metrics.riskLevelCounts.high}</span>
               </div>
-              <div className="w-full bg-surface-2 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-[#06090F] rounded-full h-1.5 overflow-hidden border border-white/[0.04]">
                 <div
-                  className="bg-status-high h-1.5 rounded-full transition-all"
+                  className="bg-orange-500 h-1.5 rounded-full transition-all"
                   style={{
                     width: `${metrics.totalScans ? (metrics.riskLevelCounts.high / metrics.totalScans) * 100 : 0}%`,
                   }}
@@ -246,12 +246,12 @@ export default function DashboardPage() {
 
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-status-medium font-medium">Medium (35–64)</span>
-                <span className="text-text-secondary font-mono">{metrics.riskLevelCounts.medium}</span>
+                <span className="text-amber-400 font-medium">Medium (35–64)</span>
+                <span className="text-slate-300 font-mono">{metrics.riskLevelCounts.medium}</span>
               </div>
-              <div className="w-full bg-surface-2 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-[#06090F] rounded-full h-1.5 overflow-hidden border border-white/[0.04]">
                 <div
-                  className="bg-status-medium h-1.5 rounded-full transition-all"
+                  className="bg-amber-400 h-1.5 rounded-full transition-all"
                   style={{
                     width: `${metrics.totalScans ? (metrics.riskLevelCounts.medium / metrics.totalScans) * 100 : 0}%`,
                   }}
@@ -261,14 +261,14 @@ export default function DashboardPage() {
 
             <div>
               <div className="flex justify-between text-xs mb-1">
-                <span className="text-status-safe font-medium">Safe / Low (0–34)</span>
-                <span className="text-text-secondary font-mono">
+                <span className="text-emerald-400 font-medium">Safe / Low (0–34)</span>
+                <span className="text-slate-300 font-mono">
                   {metrics.riskLevelCounts.safe + metrics.riskLevelCounts.low}
                 </span>
               </div>
-              <div className="w-full bg-surface-2 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-[#06090F] rounded-full h-1.5 overflow-hidden border border-white/[0.04]">
                 <div
-                  className="bg-status-safe h-1.5 rounded-full transition-all"
+                  className="bg-emerald-500 h-1.5 rounded-full transition-all"
                   style={{
                     width: `${
                       metrics.totalScans
@@ -285,11 +285,11 @@ export default function DashboardPage() {
         {/* Threat Categories */}
         <div className="lg:col-span-6 card p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-semibold text-text-primary uppercase tracking-wider flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 text-brand-blueLight" />
+            <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <ShieldAlert className="w-4 h-4 text-blue-400" />
               Detected Threat Categories
             </h3>
-            <span className="text-2xs text-text-muted font-mono">Tallies</span>
+            <span className="text-[11px] text-slate-500 font-mono">Count</span>
           </div>
 
           {Object.keys(metrics.categoryCounts).length > 0 ? (
@@ -297,58 +297,58 @@ export default function DashboardPage() {
               {Object.entries(metrics.categoryCounts).map(([cat, count]) => (
                 <div
                   key={cat}
-                  className="flex items-center justify-between p-2.5 rounded-lg bg-surface-1 border border-surface-border text-xs"
+                  className="flex items-center justify-between p-2.5 rounded-lg bg-[#06090F] border border-white/[0.06] text-xs"
                 >
-                  <span className="text-text-secondary font-medium truncate max-w-xs">{cat}</span>
-                  <span className="font-mono px-2 py-0.5 rounded bg-surface-2 text-text-primary font-semibold border border-surface-border text-2xs">
+                  <span className="text-slate-300 font-medium truncate max-w-xs">{cat}</span>
+                  <span className="font-mono px-2 py-0.5 rounded bg-white/[0.04] text-white font-semibold border border-white/[0.08] text-[11px]">
                     {count} {count === 1 ? 'scan' : 'scans'}
                   </span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-8 text-center text-xs text-text-muted space-y-1">
+            <div className="p-8 text-center text-xs text-slate-500 space-y-1">
               <p>No threat categories recorded yet in this session.</p>
-              <p className="text-2xs text-text-subtle">Scan messages to populate real category telemetry.</p>
+              <p className="text-[11px] text-slate-600">Scan messages to populate real category telemetry.</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* History Table */}
+      {/* History Audit Trail */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-text-primary flex items-center gap-2">
-            <Clock className="w-4 h-4 text-brand-blueLight" />
+          <h3 className="text-sm font-bold text-white flex items-center gap-2">
+            <Clock className="w-4 h-4 text-blue-400" />
             Audit Trail ({history.length})
           </h3>
-          <span className="text-2xs text-text-muted">Click any row to view full incident report</span>
+          <span className="text-[11px] text-slate-500">Click any row to open incident report</span>
         </div>
 
         {history.length > 0 ? (
           <div className="card overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-text-secondary">
-                <thead className="bg-surface-2 border-b border-surface-border text-text-muted font-semibold uppercase tracking-wider text-2xs">
+              <table className="w-full text-left text-xs text-slate-300">
+                <thead className="bg-[#070A12] border-b border-white/[0.08] text-slate-400 font-bold uppercase tracking-wider text-[10px]">
                   <tr>
-                    <th className="px-4 py-3">Time</th>
+                    <th className="px-4 py-3">Timestamp</th>
                     <th className="px-4 py-3">Type</th>
-                    <th className="px-4 py-3">Content Snippet</th>
+                    <th className="px-4 py-3">Payload Snippet</th>
                     <th className="px-4 py-3">Category</th>
-                    <th className="px-4 py-3">Risk</th>
+                    <th className="px-4 py-3">Severity</th>
                     <th className="px-4 py-3">Score</th>
                     <th className="px-4 py-3 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-surface-border">
+                <tbody className="divide-y divide-white/[0.06]">
                   {history.map((item) => {
                     return (
                       <tr
                         key={item.id}
                         onClick={() => setSelectedScan(item)}
-                        className="hover:bg-surface-2 transition-colors cursor-pointer group"
+                        className="hover:bg-white/[0.03] transition-colors cursor-pointer group"
                       >
-                        <td className="px-4 py-3 font-mono text-2xs text-text-muted whitespace-nowrap">
+                        <td className="px-4 py-3 font-mono text-[11px] text-slate-500 whitespace-nowrap">
                           {new Date(item.timestamp).toLocaleTimeString([], {
                             hour: '2-digit',
                             minute: '2-digit',
@@ -356,14 +356,14 @@ export default function DashboardPage() {
                           })}
                         </td>
                         <td className="px-4 py-3 capitalize whitespace-nowrap">
-                          <span className="px-2 py-0.5 rounded bg-surface-2 border border-surface-border text-2xs font-medium text-text-muted">
+                          <span className="px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-[10px] font-semibold text-slate-400">
                             {item.input_type || 'message'}
                           </span>
                         </td>
-                        <td className="px-4 py-3 max-w-xs truncate font-mono text-2xs text-text-secondary">
+                        <td className="px-4 py-3 max-w-xs truncate font-mono text-[11px] text-slate-300">
                           {item.target_text}
                         </td>
-                        <td className="px-4 py-3 whitespace-nowrap text-text-primary font-medium text-2xs">
+                        <td className="px-4 py-3 whitespace-nowrap text-white font-medium text-[11px]">
                           {item.threat_category}
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
@@ -381,11 +381,11 @@ export default function DashboardPage() {
                             {item.risk_level}
                           </span>
                         </td>
-                        <td className="px-4 py-3 font-bold font-mono text-text-primary whitespace-nowrap">
+                        <td className="px-4 py-3 font-bold font-mono text-white whitespace-nowrap">
                           {item.risk_score}/100
                         </td>
                         <td className="px-4 py-3 text-right whitespace-nowrap">
-                          <span className="inline-flex items-center gap-1 text-2xs font-semibold text-brand-blueLight group-hover:underline">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-400 group-hover:underline">
                             <span>View</span>
                             <ArrowRight className="w-3 h-3" />
                           </span>
@@ -399,27 +399,24 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="card p-10 text-center space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-surface-2 border border-surface-border flex items-center justify-center mx-auto">
-              <Clock className="w-5 h-5 text-text-muted" />
+            <div className="w-10 h-10 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center mx-auto">
+              <Clock className="w-5 h-5 text-slate-500" />
             </div>
-            <div className="space-y-0.5">
-              <h4 className="text-sm font-semibold text-text-primary">No Scans Recorded in This Session</h4>
-              <p className="text-xs text-text-muted max-w-sm mx-auto">
-                Scan messages, screenshots, or URLs to view live telemetry and risk distribution.
+            <div className="space-y-1">
+              <h4 className="text-sm font-bold text-white">No Session Records Yet</h4>
+              <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+                Run message, screenshot, or URL scans to generate live session telemetry.
               </p>
             </div>
             <div className="pt-2 flex flex-wrap justify-center gap-2">
-              <Link
-                href="/scanner"
-                className="btn-primary text-xs"
-              >
+              <Link href="/scanner" className="btn-primary text-xs">
                 Scan a Message
               </Link>
               <button
                 onClick={handlePopulateSampleSession}
                 className="btn-secondary text-xs"
               >
-                Load Sample Test Scans
+                Load Sample Scans
               </button>
             </div>
           </div>
